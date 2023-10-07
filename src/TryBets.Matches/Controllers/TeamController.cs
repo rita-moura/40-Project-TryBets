@@ -18,6 +18,13 @@ public class TeamController : Controller
     [HttpGet]
     public IActionResult Get()
     {
-        return Ok(_repository.Get());
+        try
+        {
+            return Ok(_repository.Get()); 
+        }
+        catch (ApplicationException ex)
+        {
+            return Conflict(new { message = ex.Message });
+        }
     }
 }
