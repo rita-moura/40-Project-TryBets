@@ -16,6 +16,13 @@ public class MatchController : Controller
     [HttpGet("{MatchFinished}")]
     public IActionResult Get(bool MatchFinished)
     {
-        return Ok(_repository.Get(MatchFinished));
+        try
+        {
+            return Ok(_repository.Get(MatchFinished));
+        }
+        catch (ApplicationException ex)
+        {
+            return Conflict(new { message = ex.Message });
+        }
     }
 }
