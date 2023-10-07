@@ -12,6 +12,24 @@ public class MatchRepository : IMatchRepository
 
     public IEnumerable<MatchDTOResponse> Get(bool matchFinished)
     {
-       throw new NotImplementedException();
+        var matches = _context.Matches
+            .Where(match => match.MatchFinished == matchFinished)
+            .OrderBy(match => match.MatchId);
+
+        var matchDTOs = matches.Select(match => new MatchDTOResponse
+            {
+                MatchId = match.MatchId,
+                MatchDate = match.MatchDate,
+                MatchTeamAId = match.MatchTeamAId,
+                MatchTeamBId = match.MatchTeamBId,
+                TeamAName = match.MatchTeamA!.TeamName,
+                TeamBName = match.MatchTeamB!.TeamName,
+                MatchTeamAOdds = ((match.MatchTeamAValue + match.MatchTeamBValue) / match.MatchTeamAValue).ToString("###.##"),
+                MatchTeamBOdds = ((match.MatchTeamAValue + match.MatchTeamBValue) / match.MatchTeamBValue).ToString("###.##"),
+                MatchFinished = match.MatchFinished,
+                MatchWinnerId = match.MatchWinnerId
+            }).ToList();
+
+        return matchDTOs;
     }
 }
