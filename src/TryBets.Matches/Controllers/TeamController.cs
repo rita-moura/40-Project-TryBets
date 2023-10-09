@@ -22,9 +22,9 @@ public class TeamController : Controller
         {
             return Ok(_repository.Get()); 
         }
-        catch (ApplicationException ex)
+        catch (Exception ex)
         {
-            return Conflict(new { message = ex.Message });
+            return BadRequest(new { message = ex.Message });
         }
     }
 }

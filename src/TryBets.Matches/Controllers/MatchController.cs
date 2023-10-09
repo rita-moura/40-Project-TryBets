@@ -20,9 +20,9 @@ public class MatchController : Controller
         {
             return Ok(_repository.Get(MatchFinished));
         }
-        catch (ApplicationException ex)
+        catch (Exception ex)
         {
-            return Conflict(new { message = ex.Message });
+            return BadRequest(new { message = ex.Message });
         }
     }
 }
