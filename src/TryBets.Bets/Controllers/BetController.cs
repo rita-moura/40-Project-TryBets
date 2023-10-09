@@ -6,6 +6,7 @@ using System.Security.Claims;
 using TryBets.Bets.Repository;
 using TryBets.Bets.DTO;
 using TryBets.Bets.Services;
+using TryBets.Bets.Models;
 
 
 namespace TryBets.Bets.Controllers;
@@ -24,9 +25,20 @@ public class BetController : Controller
     [HttpPost]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [Authorize(Policy = "Client")]
-    public async Task<IActionResult> Post([FromBody] BetDTORequest request)
+    public IActionResult Post([FromBody] BetDTORequest request)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var token = HttpContext.User.Identity as ClaimsIdentity;
+            var email = token?.Claims.FirstOrDefault(e => e.Type == ClaimTypes.Email)?.Value;
+            var response = _repository.Post(request, email!);
+
+            return Created("", response);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 
     [HttpGet("{BetId}")]
@@ -34,6 +46,17 @@ public class BetController : Controller
     [Authorize(Policy = "Client")]
     public IActionResult Get(int BetId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            var token = HttpContext.User.Identity as ClaimsIdentity;
+            var email = token?.Claims.FirstOrDefault(e => e.Type == ClaimTypes.Email)?.Value;
+            var response = _repository.Get(BetId, email!);
+
+            return Ok(response);
+        }
+        catch (Exception ex)
+        {
+            return BadRequest(new { message = ex.Message });
+        }
     }
 }
