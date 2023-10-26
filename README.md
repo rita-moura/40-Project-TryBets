@@ -2,7 +2,8 @@
 
 ## Descrição
 
-Este é o repositório do projeto TryBets, um projeto que
+O software consiste em uma API responsável por lidar com determinados serviços em um site de apostas de jogos. O software possui 04 entidades (models) principais: Users, Teams, Matches e Bets.
+A aplicação era monolítica e a minha função foi passar para microserviços em pastas distintas onde cada uma cumpria a sua função.
 
 ## Instalação
 
@@ -25,15 +26,3 @@ cd 40-Project-TryBets/src
 ```bash
 dotnet restore
 ```
-
-## Uso
-
-Depois de instalar as dependências do projeto, você pode executá-lo usando ``
-
-## Contribuição
-
-Se você quiser contribuir para este projeto, por favor...
-
-## Licença
-
-Este projeto está licenciado sob a licença...
